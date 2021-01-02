@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_with_api/routes/route_app.dart';
 
 void main() => runApp(AppIndex());
 
@@ -7,16 +8,8 @@ class AppIndex extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Material App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Material App Bar'),
-        ),
-        body: Center(
-          child: Container(
-            child: Text('Hello World'),
-          ),
-        ),
-      ),
+      initialRoute: '/',
+      onGenerateRoute: onGenerateRoute,
     );
   }
 }
