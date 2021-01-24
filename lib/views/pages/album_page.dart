@@ -2,25 +2,21 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_with_api/models/photos_model.dart';
-import 'package:flutter_with_api/repositories/photos_repository.dart';
+import 'package:flutter_with_api/models/album_model.dart';
+import 'package:flutter_with_api/repositories/album_repository.dart';
 
-class PhotosPage extends StatefulWidget {
-  final int albumId;
-
-  const PhotosPage({Key key, @required this.albumId}) : super(key: key);
+class AlbumPage extends StatefulWidget {
   @override
-  _PhotosPageState createState() => _PhotosPageState();
+  _AlbumPageState createState() => _AlbumPageState();
 }
 
-class _PhotosPageState extends State<PhotosPage> {
-  Future<List<PhotosModel>> dataList;
-  PhotosRepository photosRepository;
+class _AlbumPageState extends State<AlbumPage> {
+  Future<List<AlbumModel>> dataList;
+  AlbumRepository repository;
   @override
   void initState() {
-    photosRepository = new PhotosRepository();
-    dataList = photosRepository.photosListByAlbumId(albumId: widget.albumId);
-    print(widget.albumId);
+    repository = new AlbumRepository();
+    dataList = repository.albumList();
     super.initState();
   }
 
@@ -28,9 +24,9 @@ class _PhotosPageState extends State<PhotosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Photos Page'),
+        title: Text('Album Page'),
       ),
-      body: FutureBuilder<List<PhotosModel>>(
+      body: FutureBuilder<List<AlbumModel>>(
         future: dataList,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -55,7 +51,7 @@ class _PhotosPageState extends State<PhotosPage> {
                 var data = snapshot.data[index];
                 return GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/photos_detail');
+                    Navigator.pushNamed(context, '/photos', arguments: data.id);
                   },
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12),
@@ -66,10 +62,7 @@ class _PhotosPageState extends State<PhotosPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: EdgeInsets.all(16),
-                            child: Image.network(data.url),
-                          ),
+                          SizedBox(height: 10),
                           Container(
                             padding: EdgeInsets.only(
                                 right: 16, left: 16, bottom: 16),

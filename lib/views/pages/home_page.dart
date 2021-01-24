@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_with_api/models/post_model.dart';
 import 'package:flutter_with_api/repositories/post_repository.dart';
-import 'package:flutter_with_api/services/post_service.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,7 +8,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   Future<List<PostModel>> postList;
   PostRepository postRepository;
   @override
@@ -36,20 +34,26 @@ class _HomePageState extends State<HomePage> {
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
                 var data = snapshot.data[index];
-                return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: ListTile(
-                      leading: Image.network(
-                        data.url,
-                        height: 40,
-                        width: 60,
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/post_detail',
+                        arguments: data);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                      title: Text(data.title),
-                      subtitle: Text(data.body),
+                      child: ListTile(
+                        leading: Image.network(
+                          data.url,
+                          height: 40,
+                          width: 60,
+                        ),
+                        title: Text(data.title),
+                        subtitle: Text(data.body),
+                      ),
                     ),
                   ),
                 );

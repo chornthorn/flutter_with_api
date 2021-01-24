@@ -5,22 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_with_api/models/photos_model.dart';
 import 'package:flutter_with_api/repositories/photos_repository.dart';
 
-class PhotosPage extends StatefulWidget {
-  final int albumId;
-
-  const PhotosPage({Key key, @required this.albumId}) : super(key: key);
+class PhotosDetailPage extends StatefulWidget {
   @override
-  _PhotosPageState createState() => _PhotosPageState();
+  _PhotosDetailPageState createState() => _PhotosDetailPageState();
 }
 
-class _PhotosPageState extends State<PhotosPage> {
-  Future<List<PhotosModel>> dataList;
+class _PhotosDetailPageState extends State<PhotosDetailPage> {
+  Future<List<PhotosModel>> postList;
   PhotosRepository photosRepository;
   @override
   void initState() {
     photosRepository = new PhotosRepository();
-    dataList = photosRepository.photosListByAlbumId(albumId: widget.albumId);
-    print(widget.albumId);
+    postList = photosRepository.photosList();
     super.initState();
   }
 
@@ -28,10 +24,10 @@ class _PhotosPageState extends State<PhotosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Photos Page'),
+        title: Text('Photos Detail'),
       ),
       body: FutureBuilder<List<PhotosModel>>(
-        future: dataList,
+        future: postList,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -53,30 +49,25 @@ class _PhotosPageState extends State<PhotosPage> {
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
                 var data = snapshot.data[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/photos_detail');
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(16),
-                            child: Image.network(data.url),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(
-                                right: 16, left: 16, bottom: 16),
-                            child: Text(data.title),
-                          ),
-                        ],
-                      ),
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Image.network(data.url),
+                        ),
+                        Container(
+                          padding:
+                              EdgeInsets.only(right: 16, left: 16, bottom: 16),
+                          child: Text(data.title),
+                        ),
+                      ],
                     ),
                   ),
                 );

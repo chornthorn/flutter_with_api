@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_with_api/views/pages/album_page.dart';
 import 'package:flutter_with_api/views/pages/home_page.dart';
 import 'package:flutter_with_api/views/pages/more_page.dart';
-import 'package:flutter_with_api/views/pages/photos_page.dart';
 import 'package:flutter_with_api/views/pages/user_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -10,7 +10,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final _screenList = [HomePage(), PhotosPage(), UserPage(), MorePage()];
+  final _screenList = [HomePage(), AlbumPage(), UserPage(), MorePage()];
   int currentIndexPage = 0;
   @override
   Widget build(BuildContext context) {
