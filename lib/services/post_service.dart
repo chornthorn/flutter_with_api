@@ -8,10 +8,16 @@ class PostService {
         "https://my-json-server.typicode.com/chornthorn/json-demo/posts";
     final response = await http.get(baseUrl);
     if (response.statusCode == 200) {
-      var res = jsonDecode(response.body) as List;
-      return res.map((data) => new PostModel.fromJson(data)).toList();
+      var result = jsonDecode(response.body) as List;
+      return result.map((data) => new PostModel.fromJson(data)).toList();
     } else {
       throw Exception("Unable to get post list");
     }
   }
+}
+
+PostService myService = new PostService();
+
+void getData(){
+  myService.getPost();
 }

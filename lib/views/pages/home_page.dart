@@ -9,9 +9,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   Future<List<PostModel>> postList;
   PostRepository postRepository;
-
   @override
   void initState() {
     postRepository = new PostRepository();
@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
         future: postList,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: Text('Please wait...'));
           }
           if (snapshot.hasData) {
             return ListView.builder(
